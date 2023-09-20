@@ -1,24 +1,21 @@
-import { MongoClient, MongoClientOptions } from "mongodb";
+import { MongoClient } from "mongodb";
 
 declare global {
-  var _mongo: MongoClient | undefined;
+  namespace globalThis {
+    var _mongo: Promise<MongoClient>;
+  }
 }
-const mongoose = require("mongoose");
 
 const url =
   "mongodb+srv://Hyejin:ZGJWXPk67HSepG7U@cluster0.braxixv.mongodb.net/?retryWrites=true&w=majority";
+let connectDB: Promise<MongoClient>;
 
-const connectDB = async () => {
-  if (process.env.NODE_ENV === "development") {
-    await mongoose.connect(url, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    });
-  } else {
-    await mongoose.connect(url, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    });
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongo) {
+    global._mongo = new MongoClient(url).connect();
   }
-};
+  connectDB = global._mongo;
+} else {
+  connectDB = new MongoClient(url).connect();
+}
 export { connectDB };
