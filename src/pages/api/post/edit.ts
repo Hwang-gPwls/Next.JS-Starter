@@ -9,7 +9,7 @@ export default async function handler(req: any, res: any) {
       console.log(editContent);
       db.collection("post").updateOne(
         { _id: new ObjectId(req.body._id) },
-        { $set: { editContent } }
+        { $set: editContent }
       );
       res.redirect(302, "/list");
     } catch (error) {}
