@@ -11,6 +11,8 @@ export default async function Detail({ params }: { params: PageParams }) {
     .collection("post")
     .findOne({ _id: new ObjectId(params.id) });
 
+  if (result === null) return null;
+
   return (
     <div>
       <h4>상세페이지임</h4>
