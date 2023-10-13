@@ -1,9 +1,7 @@
 "use client";
 
-import { METHODS } from "http";
 import { WithId } from "mongodb";
 import Link from "next/link";
-import { useEffect } from "react";
 
 type tResult = {
   _id: string;
